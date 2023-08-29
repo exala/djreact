@@ -6,6 +6,7 @@ from .serializers import ArticleSerializer
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import IsAuthenticated
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -22,14 +23,17 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 class ArticleListView(ListAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
 class ArticleDetailView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
 class ArticleSearchAPIView(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
     search_fields = ['title', 'content']
     filter_backends = (SearchFilter,)
     queryset = Article.objects.all()
